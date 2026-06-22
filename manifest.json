@@ -3,7 +3,7 @@
   "name": "Obsidian Agent Context",
   "version": "0.1.0",
   "minAppVersion": "1.5.0",
-  "description": "Generate local agent-readable context indexes for an Obsidian vault.",
+  "description": "Create local, token-free context maps that help AI agents navigate your Obsidian vault.",
   "author": "Xu Wang",
   "authorUrl": "",
   "fundingUrl": "",
