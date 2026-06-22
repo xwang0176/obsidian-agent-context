@@ -1,3 +1,8 @@
+![Status](https://img.shields.io/badge/status-MVP-blue)
+![Local First](https://img.shields.io/badge/local--first-yes-green)
+![No LLM Calls](https://img.shields.io/badge/LLM%20calls-none-lightgrey)
+![Token Cost](https://img.shields.io/badge/indexing%20token%20cost-zero-green)
+
 # Obsidian Agent Context
 
 **Give AI agents a map of your Obsidian vault before they start reading your notes.**
