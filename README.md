@@ -1,92 +1,162 @@
-# Obsidian Sample Plugin
+# Obsidian Agent Context
 
-This is a sample plugin for Obsidian (https://obsidian.md).
+Obsidian Agent Context is a local-first Obsidian plugin that generates an agent-readable context index for an Obsidian vault.
 
-This project uses TypeScript to provide type checking and documentation.
-The repo depends on the latest plugin API (obsidian.d.ts) in TypeScript Definition format, which contains TSDoc comments describing what it does.
+The goal is not to replace search, embeddings, or full-text reading. The goal is to give an AI agent a safe, structured, and low-noise map of the vault before it starts opening source files.
 
-This sample plugin demonstrates some of the basic functionality the plugin API can do.
+## What it is
 
-- Adds a ribbon icon, which shows a Notice when clicked.
-- Adds a command "Open modal (simple)" which opens a Modal.
-- Adds a plugin setting tab to the settings page.
-- Registers a global click event and outputs a Notice on click.
-- Registers a global interval which logs 'setInterval' to the console.
+Obsidian Agent Context creates a metadata-first index under `.agent_context/`. The generated index helps an agent understand what files exist, how notes are organized, which notes link to other notes, which notes reference attachments, which folders may be worth scanning separately, and whether generated outputs are capped or stale.
 
-## First time developing plugins?
+The plugin supports both vault-level indexing and folder-level indexing.
 
-Quick starting guide for new plugin devs:
+## What it is not
 
-- Check if [someone already developed a plugin for what you want](https://obsidian.md/plugins)! There might be an existing plugin similar enough that you can partner up with.
-- Make a copy of this repo as a template with the "Use this template" button (login to GitHub if you don't see it).
-- Clone your repo to a local development folder. For convenience, you can place this folder in your `.obsidian/plugins/your-plugin-name` folder.
-- Install NodeJS, then run `npm i` in the command line under your repo folder.
-- Run `npm run dev` to compile your plugin from `src/main.ts` to `main.js`.
-- Make changes to `src/main.ts` (or create new `.ts` files). Those changes should be automatically compiled into `main.js`.
-- Reload Obsidian to load the new version of your plugin.
-- Enable plugin in settings window.
-- For updates to the Obsidian API run `npm update` in the command line under your repo folder.
+This plugin is not a semantic search engine, an embedding system, a full-text vault dump, an LLM summarizer, a PDF or Office parser, or a replacement for Obsidian search.
 
-## Releasing new releases
+It intentionally avoids reading or exporting more content than necessary.
 
-- Update your `manifest.json` with your new version number, such as `1.0.1`, and the minimum Obsidian version required for your latest release.
-- Update your `versions.json` file with `"new-plugin-version": "minimum-obsidian-version"` so older versions of Obsidian can download an older version of your plugin that's compatible.
-- Create new GitHub release using your new version number as the "Tag version". Use the exact version number, don't include a prefix `v`. See here for an example: https://github.com/obsidianmd/obsidian-sample-plugin/releases
-- Upload the files `manifest.json`, `main.js`, `styles.css` as binary attachments. Note: The manifest.json file must be in two places, first the root path of your repository and also in the release.
-- Publish the release.
+## Why this exists
 
-> You can simplify the version bump process by running `npm version patch`, `npm version minor` or `npm version major` after updating `minAppVersion` manually in `manifest.json`.
-> The command will bump version in `manifest.json` and `package.json`, and add the entry for the new version to `versions.json`
+Large Obsidian vaults can be difficult for agents to navigate. If an agent starts by reading random source files, it may miss the structure of the vault or spend context on irrelevant files.
 
-## Adding your plugin to the community plugin list
+This plugin creates a breadth-first map first. The agent can then choose a smaller number of files to read based on structured evidence.
 
-- Check the [plugin guidelines](https://docs.obsidian.md/Plugins/Releasing/Plugin+guidelines).
-- Publish an initial version.
-- Make sure you have a `README.md` file in the root of your repo.
-- Make a pull request at https://github.com/obsidianmd/obsidian-releases to add your plugin.
+## Generated output
 
-## How to use
+Vault-level output is written to:
 
-- Clone this repo.
-- Make sure your NodeJS is at least v18 (`node --version`).
-- `npm i` to install dependencies.
-- `npm run dev` to start compilation in watch mode.
-
-## Manually installing the plugin
-
-- Copy over `main.js`, `styles.css`, `manifest.json` to your vault `VaultFolder/.obsidian/plugins/your-plugin-id/`.
-
-## Improve code quality with eslint
-
-- [ESLint](https://eslint.org/) is a tool that analyzes your code to quickly find problems. You can run ESLint against your plugin to find common bugs and ways to improve your code.
-- This project already has eslint preconfigured, you can invoke a check by running`npm run lint`
-- Together with a custom eslint [plugin](https://github.com/obsidianmd/eslint-plugin) for Obsidan specific code guidelines.
-- A GitHub action is preconfigured to automatically lint every commit on all branches.
-
-## Funding URL
-
-You can include funding URLs where people who use your plugin can financially support it.
-
-The simple way is to set the `fundingUrl` field to your link in your `manifest.json` file:
-
-```json
-{
-	"fundingUrl": "https://buymeacoffee.com"
-}
+```text
+.agent_context/latest/
 ```
 
-If you have multiple URLs, you can also do:
+Folder-level output is written to:
 
-```json
-{
-	"fundingUrl": {
-		"Buy Me a Coffee": "https://buymeacoffee.com",
-		"GitHub Sponsor": "https://github.com/sponsors",
-		"Patreon": "https://www.patreon.com/"
-	}
-}
+```text
+.agent_context/folders/<folder_slug>/latest/
 ```
 
-## API Documentation
+A folder context registry is written to:
 
-See https://docs.obsidian.md
+```text
+.agent_context/folder_context_registry.csv
+```
+
+Typical generated files include:
+
+```text
+agent_context_manifest.json
+directory_context.md
+large_index_notice.md
+folder_tree_summary.md
+file_inventory_summary.md
+inventory_group_counts.csv
+inventory_markdown.csv
+inventory_code.csv
+inventory_data.csv
+inventory_documents_sample.csv
+inventory_media_sample.csv
+inventory_other_sample.csv
+note_index.csv
+markdown_outline.csv
+markdown_outline_summary.md
+note_link_graph.csv
+note_link_graph_summary.md
+backlink_summary.md
+frontmatter_index.csv
+frontmatter_index_summary.md
+attachment_reference_graph.csv
+attachment_reference_summary.md
+```
+
+## Vault-level vs folder-level context
+
+Vault-level context provides a broad map of the full vault. It is useful for initial discovery.
+
+Run:
+
+```text
+Generate Vault Agent Context
+```
+
+Folder-level context provides a lower-noise index for configured folders. Folder scopes are configured in plugin settings, one folder path per line:
+
+```text
+Projects/FrameAxis
+Literature
+Research/Papers
+```
+
+Run:
+
+```text
+Generate Configured Folder Contexts
+```
+
+Folder-level context is useful when the vault is large and the agent needs to focus on a specific project, literature area, or research folder.
+
+## AGENTS.md pointer behavior
+
+The plugin writes an `AGENTS.md` pointer so agents know where to start.
+
+For vault-level context, the pointer is written at the vault root:
+
+```text
+AGENTS.md
+```
+
+For folder-level context, the pointer is written inside the configured folder:
+
+```text
+Projects/FrameAxis/AGENTS.md
+```
+
+The plugin does not overwrite an existing `AGENTS.md`.
+
+If an `AGENTS.md` file already exists, the plugin writes a fallback file instead:
+
+```text
+AGENTS.agent-context-indexer.md
+```
+
+The fallback file explains that the existing `AGENTS.md` was not overwritten and can be merged manually if desired.
+
+## Recommended agent workflow
+
+Agents should start with `agent_context_manifest.json`.
+
+Recommended order:
+
+1. Read `agent_context_manifest.json`.
+2. Read `directory_context.md`.
+3. Read `large_index_notice.md`.
+4. Read `folder_tree_summary.md`.
+5. Read `file_inventory_summary.md`.
+6. Read `inventory_group_counts.csv`.
+7. Use `note_index.csv` and `markdown_outline.csv` to select relevant notes.
+8. Use `note_link_graph.csv`, `backlink_summary.md`, and `frontmatter_index.csv` for note navigation.
+9. Use `attachment_reference_graph.csv` for references to PDFs, images, data files, and other non-Markdown files.
+10. Read original vault files only after selecting a small number of candidates.
+
+## Settings
+
+The plugin currently supports multiple configured folder scopes, staleness days, startup stale check, optional vault auto-refresh on startup, and optional configured folder auto-refresh on startup.
+
+Auto-refresh is off by default because scanning and writing files during startup may not be desirable for every user.
+
+## Limitations
+
+- The plugin indexes non-Markdown files by metadata only.
+- It does not parse PDFs, Office files, images, audio, or video.
+- CSV outputs are capped to keep them readable.
+- A capped output is not a complete dump.
+- Folder-level context is scoped to files inside the configured folder, but note links may resolve to notes outside the folder.
+- The plugin only scans files inside the current Obsidian vault.
+
+## Roadmap
+
+Possible future improvements include settings for custom caps, folder scope validation in settings, commands to open the latest manifest and folder context registry, optional run history, right-click folder indexing, better diagnostics, and package-ready release workflow.
+
+## Design principles
+
+The plugin follows these principles: local-first, metadata-first, breadth-first, capped by default, agent-readable, safe pointer writing, and vault-level map plus folder-level focused context.

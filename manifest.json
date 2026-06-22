@@ -1,11 +1,11 @@
 {
-	"id": "sample-plugin",
-	"name": "Sample Plugin",
-	"version": "1.0.0",
-	"minAppVersion": "1.0.0",
-	"description": "Demonstrates some of the capabilities of the Obsidian API.",
-	"author": "Obsidian",
-	"authorUrl": "https://obsidian.md",
-	"fundingUrl": "https://obsidian.md/pricing",
-	"isDesktopOnly": false
+  "id": "obsidian-agent-context",
+  "name": "Obsidian Agent Context",
+  "version": "0.1.0",
+  "minAppVersion": "1.5.0",
+  "description": "Generate local agent-readable context indexes for an Obsidian vault.",
+  "author": "Xu Wang",
+  "authorUrl": "",
+  "fundingUrl": "",
+  "isDesktopOnly": true
 }
