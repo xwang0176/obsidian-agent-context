@@ -50,11 +50,11 @@ If the answer is yes, keep using it.
 
 If the answer is no, delete `.agent_context/` and ignore or delete the generated pointer file. No workflow lock-in.
 
-## What it does not do
+## What it does NOT do
 
-Obsidian Agent Context is intentionally not another heavy AI layer.
+Obsidian Agent Context is intentionally NOT another heavy AI layer.
 
-It does not:
+It does NOT:
 
 - upload your notes
 - call OpenAI, Anthropic, or any other model provider
@@ -77,6 +77,23 @@ The basic workflow has three steps:
 2. Ask your agent whether the index is useful
 3. If useful, merge or keep the generated AGENTS pointer
 ```
+
+After installing and enabling the plugin, open the Obsidian command palette with `Ctrl + P` and search for **Agent Context**.
+
+You should see three commands:
+
+```text
+Generate Vault Agent Context
+Generate Configured Folder Contexts
+Generate All Agent Contexts
+```
+
+Use them as follows:
+
+- **Generate Vault Agent Context**: creates a vault-level index under `.agent_context/latest/`.
+- **Generate Configured Folder Contexts**: creates folder-level indexes for the folders configured in plugin settings.
+- **Generate All Agent Contexts**: generates both the vault-level index and all configured folder-level indexes.
+
 
 ### Option 1: Scan the whole vault
 
