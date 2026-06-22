@@ -1,87 +1,115 @@
 # Obsidian Agent Context
 
-**Local-first context indexing for AI agents working with Obsidian vaults.**
+**Give AI agents a map of your Obsidian vault before they start reading your notes.**
 
-Obsidian Agent Context helps AI agents understand your vault before they start reading your notes. It generates a structured, local, token-efficient map of your vault so an agent can quickly decide where to look next.
+Obsidian Agent Context generates a **local, token-free, agent-readable index** of your vault so an AI agent can quickly understand what exists, where to look, and which files are worth opening next.
 
-Instead of asking an agent to open random files or read a large folder blindly, you can give it a lightweight context index first.
+No LLM calls. No embeddings. No upload. Just a local context map.
 
 ```text
-vault or folder
-→ local metadata-first scan
-→ capped agent-readable index
-→ agent reads the index
-→ agent selectively opens source files
+Generate local index → Ask your agent if it helps → Keep it, merge it, or delete it
 ```
 
 ## Why use it?
 
-AI agents are powerful, but they often waste context when they do not know the structure of your vault. A large Obsidian vault may contain years of notes, project folders, PDFs, images, data files, and old drafts. Without a map, an agent may read too much, read the wrong files, or miss the most important folders.
+AI agents are much more useful when they know the structure of your workspace.
 
-Obsidian Agent Context gives the agent a map first.
+Without a map, an agent may open the wrong notes, miss important project folders, or spend tokens reading files that are not relevant. Obsidian Agent Context gives the agent a lightweight orientation layer first.
 
-It helps the agent answer questions like:
+It helps an agent answer:
 
-- What folders and files exist in this vault?
-- Which notes look central?
-- Which notes link to each other?
-- Which notes reference PDFs, images, or data files?
-- Which folder should be scanned more deeply?
-- Which source files are worth opening next?
+- What is in this vault?
+- Which folders look relevant?
+- Which notes are central?
+- Which files should I read next?
+- Can I avoid opening unnecessary source files?
 
-## Key features
+The goal is simple: **less blind reading, better context selection, and lower token waste when you later use an AI agent.**
 
-- **Local-first**: runs inside Obsidian and writes files locally to your vault
-- **No token cost to generate indexes**: indexing does not call an LLM API
-- **No LLM or embedding API calls**: no OpenAI, Anthropic, or other model provider is called by the plugin
-- **Low-cost to try**: generate a local index, ask your agent if it helps, and delete it if it does not
-- **Vault-level context**: generate a broad map of the full vault
-- **Folder-level context**: generate focused indexes for selected subfolders
-- **Multiple folder scopes**: configure several folders and generate all folder indexes at once
-- **Safe `AGENTS.md` pointers**: creates agent entry-point files without overwriting existing ones
-- **Metadata-first output**: indexes paths, headings, links, frontmatter, tags, file inventory, and attachment references
-- **Capped outputs**: avoids huge files that are hard for agents to use
-- **Agent-readable structure**: outputs Markdown, JSON, and CSV files designed for agent workflows
+## Why it is low-risk to try
 
-## Try it with almost no commitment
+Generating the index itself costs almost nothing.
 
-Obsidian Agent Context is designed to be easy to try.
-
-Generating a local index does not consume tokens, does not call an LLM API, and does not upload your vault. The plugin only writes local Markdown, JSON, and CSV files under `.agent_context/`.
+- It runs locally inside Obsidian.
+- It does not call an LLM API.
+- It does not consume tokens.
+- It does not upload your vault.
+- It does not overwrite existing `AGENTS.md` files.
+- It writes removable files under `.agent_context/`.
 
 After generating the index, you can ask your agent:
 
 ```text
-Read the generated Agent Context index. Does it help you understand this vault?
-Which files would you read next?
-Would this index reduce the number of source files you need to open?
+Read the Agent Context index. Does this help you understand my vault?
+Which files would you open next?
+Would this reduce the number of source files you need to read?
 Would this likely save tokens compared with reading the vault directly?
 ```
 
-If the index is useful, you can keep it and optionally merge the generated `AGENTS.md` pointer into your workflow.
+If the answer is yes, keep using it.
 
-If it is not useful, there is little downside. You can ignore the generated pointer, avoid merging `AGENTS.agent-context-indexer.md`, or delete the generated files:
+If the answer is no, delete `.agent_context/` and ignore or delete the generated pointer file. No workflow lock-in.
+
+## What it does not do
+
+Obsidian Agent Context is intentionally not another heavy AI layer.
+
+It does not:
+
+- upload your notes
+- call OpenAI, Anthropic, or any other model provider
+- generate embeddings
+- summarize your vault with an LLM
+- parse PDFs, Word files, Excel files, images, audio, or video
+- replace Obsidian search
+- export your full vault as one giant text dump
+
+It is a **navigation layer**, not a semantic search engine or summarizer.
+
+## Example use case
+
+Imagine your vault has:
 
 ```text
-.agent_context/
-AGENTS.agent-context-indexer.md
+Projects/
+Literature/
+Data/
+Drafts/
+Images/
+Archive/
 ```
 
-This makes the plugin a low-risk way to test whether agent-readable context indexing helps your vault before committing to a larger workflow.
+You want an agent to help with `Projects/FrameAxis`, but you do not want it to read the entire vault.
 
-## Token and API usage
+With Obsidian Agent Context, you can:
 
-Generating the index does **not** consume tokens.
+1. Generate a vault-level context index.
+2. Ask the agent which folders look relevant.
+3. Generate a focused folder-level index for `Projects/FrameAxis`.
+4. Let the agent inspect note outlines, backlinks, frontmatter, file inventory, and attachment references.
+5. Only then let it open selected source notes or files.
 
-The plugin does not call an LLM API, does not create embeddings, and does not upload your vault. It only scans local vault metadata and writes local files under `.agent_context/`.
+This gives the agent more structure before it spends tokens on original files.
 
-Token usage may happen later only if you choose to give the generated index files to an AI tool or agent.
+## Related project: standalone Python version
+
+The Obsidian plugin is designed for Obsidian vaults.
+
+A standalone Python version of the same idea is also available or planned for non-Obsidian use cases, such as local project folders, research folders, code repositories, and document directories.
+
+The Obsidian plugin does **not** require the Python version. They are related tools built around the same idea: **Agent Context Indexing**.
+
+---
+
+# Details
+
+The sections below describe how the plugin works, what it generates, and how agents should use the output.
 
 ## How it works
 
 The plugin scans your vault or configured folders and creates a local context package.
 
-It extracts:
+It extracts metadata and structure such as:
 
 - file paths
 - folder structure
@@ -93,7 +121,7 @@ It extracts:
 - tags
 - references from notes to PDFs, images, data files, and other non-Markdown files
 
-It does **not** export full note content by default. It is meant to help an agent navigate first, not to dump your entire vault.
+It removes fenced code blocks before extracting headings and links, so examples inside code blocks are not treated as real vault structure.
 
 ## Generated output
 
@@ -262,44 +290,6 @@ Recommended order:
 9. Use `attachment_reference_graph.csv` for references to PDFs, images, data files, and other non-Markdown files.
 10. Read original vault files only after selecting a small number of candidates.
 
-## Example use case
-
-Imagine you have a large research vault with folders like:
-
-```text
-Projects/
-Literature/
-Data/
-Drafts/
-Images/
-Archive/
-```
-
-You want an agent to help with a project in `Projects/FrameAxis`, but you do not want it to read the entire vault.
-
-With Obsidian Agent Context, you can:
-
-1. Generate a vault-level context index.
-2. Ask the agent which folder seems most relevant.
-3. Generate a folder-level index for `Projects/FrameAxis`.
-4. Let the agent inspect the folder-level manifest, note outlines, backlinks, and attachment references.
-5. Only then let it open selected source notes or files.
-
-This gives the agent more structure while reducing unnecessary reading.
-
-## What the plugin does not do
-
-This plugin is not:
-
-- a semantic search engine
-- an embedding system
-- a full-text vault dump
-- an LLM summarizer
-- a PDF, Word, Excel, image, audio, or video parser
-- a replacement for Obsidian search
-
-Non-Markdown files are indexed by metadata and references only. Their contents are not parsed.
-
 ## Privacy and safety
 
 Obsidian Agent Context is designed to be local-first.
@@ -313,7 +303,7 @@ Obsidian Agent Context is designed to be local-first.
 
 For more details, see [`SAFETY.md`](SAFETY.md).
 
-## Design
+## Design principles
 
 The core design principles are:
 
@@ -326,12 +316,6 @@ The core design principles are:
 - vault-level map plus folder-level focused context
 
 For more details, see [`DESIGN.md`](DESIGN.md).
-
-## Related project: standalone Python version
-
-A standalone Python version of this idea is also available or planned for non-Obsidian use cases, such as indexing local project folders, research folders, code repositories, and document directories.
-
-The Obsidian plugin does **not** require the Python version. The Python version is a related standalone tool for users who want Agent Context Indexing outside Obsidian.
 
 ## Suggested `.gitignore`
 
