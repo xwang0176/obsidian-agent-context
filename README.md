@@ -88,16 +88,16 @@ After installing and enabling the plugin, open the Obsidian command palette with
 You should see three commands:
 
 ```text
-Generate Vault Agent Context
-Generate Configured Folder Contexts
-Generate All Agent Contexts
+Generate vault agent context
+Generate configured folder contexts
+Generate all agent contexts
 ```
 
 Use them as follows:
 
-- **Generate Vault Agent Context**: creates a vault-level index under `.agent_context/latest/`.
-- **Generate Configured Folder Contexts**: creates folder-level indexes for the folders configured in plugin settings.
-- **Generate All Agent Contexts**: generates both the vault-level index and all configured folder-level indexes.
+- **Generate vault agent context**: creates a vault-level index under `.agent_context/latest/`.
+- **Generate configured folder contexts**: creates folder-level indexes for the folders configured in plugin settings.
+- **Generate all agent contexts**: generates both the vault-level index and all configured folder-level indexes.
 
 
 ### Option 1: Scan the whole vault
@@ -107,7 +107,7 @@ Use this when you want a broad first map of the vault.
 Run:
 
 ```text
-Generate Vault Agent Context
+Generate vault agent context
 ```
 
 This creates:
@@ -162,7 +162,7 @@ Projects/Project_ABC
 Then run:
 
 ```text
-Generate Configured Folder Contexts
+Generate configured folder contexts
 ```
 
 This creates folder-specific context indexes such as:
@@ -191,7 +191,7 @@ Use this when you want both a global map and focused folder maps.
 Run:
 
 ```text
-Generate All Agent Contexts
+Generate all agent contexts
 ```
 
 This creates or updates:
