@@ -66,30 +66,142 @@ It does not:
 
 It is a **navigation layer**, not a semantic search engine or summarizer.
 
-## Example use case
+## Example use cases
 
-Imagine your vault has:
+Obsidian Agent Context is useful when you want an agent to understand your vault before it starts reading source files.
+
+The basic workflow has three steps:
 
 ```text
-Projects/
-Literature/
-Data/
-Drafts/
-Images/
-Archive/
+1. Generate a local index
+2. Ask your agent whether the index is useful
+3. If useful, merge or keep the generated AGENTS pointer
 ```
 
-You want an agent to help with `Projects/FrameAxis`, but you do not want it to read the entire vault.
+### Option 1: Scan the whole vault
 
-With Obsidian Agent Context, you can:
+Use this when you want a broad first map of the vault.
 
-1. Generate a vault-level context index.
-2. Ask the agent which folders look relevant.
-3. Generate a focused folder-level index for `Projects/FrameAxis`.
-4. Let the agent inspect note outlines, backlinks, frontmatter, file inventory, and attachment references.
-5. Only then let it open selected source notes or files.
+Run:
 
-This gives the agent more structure before it spends tokens on original files.
+```text
+Generate Vault Agent Context
+```
+
+This creates:
+
+```text
+.agent_context/latest/
+```
+
+Then ask your agent:
+
+```text
+Read the vault-level Agent Context index first.
+
+Does this help you understand the overall structure of my vault?
+Which folders or notes look most relevant?
+Would this reduce the number of source files you need to open?
+Would a folder-level scan be more useful for this task?
+```
+
+This is a good first step for discovery. The caveat is that for very large vaults, a full-vault index may still be broad or noisy. In that case, the vault-level scan is best used as a map to decide which folder should be scanned next.
+
+### Option 2: Scan one or more specific folders
+
+Use this when you already know the project, research area, or folder you want the agent to focus on.
+
+In plugin settings, enter one folder path per line:
+
+```text
+Projects/Project_ABC
+Literature
+Research/Papers
+```
+
+Folder paths should be relative to the vault root. For example, if your vault is:
+
+```text
+E:\obsidian-vault
+```
+
+and the folder is:
+
+```text
+E:\obsidian-vault\Projects\Project_ABC
+```
+
+then enter:
+
+```text
+Projects/Project_ABC
+```
+
+Then run:
+
+```text
+Generate Configured Folder Contexts
+```
+
+This creates folder-specific context indexes such as:
+
+```text
+.agent_context/folders/projects__project_ABC/latest/
+.agent_context/folders/literature/latest/
+.agent_context/folders/research__papers/latest/
+```
+
+Then ask your agent:
+
+```text
+Read the folder-level Agent Context index for Projects/Project_ABC.
+
+Does this give you enough context to work on this project?
+Would this folder-level index save tokens compared with reading the folder directly?
+```
+
+Folder-level scans are usually more useful when the task is focused, because they reduce noise and give the agent a smaller, more relevant context map.
+
+### Option 3: Scan the vault and configured folders together
+
+Use this when you want both a global map and focused folder maps.
+
+Run:
+
+```text
+Generate All Agent Contexts
+```
+
+This creates or updates:
+
+```text
+.agent_context/latest/
+.agent_context/folders/<folder_slug>/latest/
+.agent_context/folder_context_registry.csv
+```
+
+Then ask your agent:
+
+```text
+Read the vault-level Agent Context index and the folder context registry.
+Would this folder-level index save tokens compared with reading the folder directly?
+```
+
+This option combines broad discovery with focused context. It is useful when you want the agent to compare the vault-level map with several folder-level maps and tell you which ones are actually helpful.
+
+### After scanning: decide whether to keep or merge
+
+If the generated context is helpful, you can keep using it and optionally merge the generated `AGENTS.md` or `AGENTS.agent-context-indexer.md` pointer into your own agent instructions.
+
+If it is not helpful, you can simply delete:
+
+```text
+.agent_context/
+AGENTS.agent-context-indexer.md
+```
+
+or ignore the generated pointer. The scan itself did not consume tokens and did not upload your vault.
+
 
 ## Related project: standalone Python version
 
