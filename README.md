@@ -79,6 +79,51 @@ It does NOT:
 
 It is a **navigation layer**, not a semantic search engine or summarizer.
 
+## Manual installation from GitHub release
+
+Obsidian Agent Context is not yet available in the Obsidian community plugin marketplace. Until then, you can install it manually from the GitHub release.
+
+1. Go to the **Releases** section on the right side of this GitHub repository.
+2. Open the latest release.
+3. Download these three files:
+
+```text
+manifest.json
+main.js
+styles.css
+```
+
+4. In your Obsidian vault, open the plugins folder:
+
+```text
+<vault>/.obsidian/plugins/
+```
+
+5. Create a new folder named:
+
+```text
+obsidian-agent-context
+```
+
+6. Put the three downloaded files into that folder:
+
+```text
+<vault>/.obsidian/plugins/obsidian-agent-context/
+  manifest.json
+  main.js
+  styles.css
+```
+
+7. Restart Obsidian.
+8. Go to **Settings → Community plugins**.
+9. If Obsidian asks, allow community plugins or turn off **Restricted mode**.
+10. Enable **Obsidian Agent Context**.
+
+After enabling the plugin, open the command palette with `Ctrl + P` and search for **Agent Context**.
+
+Only download release files from this repository.
+
+
 ## Example use cases
 
 Obsidian Agent Context is useful when you want an agent to understand your vault before it starts reading source files.
