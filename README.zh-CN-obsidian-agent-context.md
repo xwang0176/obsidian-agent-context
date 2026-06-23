@@ -184,12 +184,11 @@ Generate vault agent context
 然后问 agent：
 
 ```text
-请先读取 vault-level Agent Context index。
+请先读取.agent_context/latest/里面的文件
 
 这个索引是否帮助你理解我的 vault 结构？
-哪些 folder 或 note 看起来最相关？
 这是否能减少你需要打开的源文件数量？
-对于这个任务，folder-level scan 会不会更有用？
+这里的文件是否能显著加快你的工作并且减少token的消耗？
 ```
 
 注意：对于非常大的 vault，全局扫描可能仍然比较宽泛。这时 vault-level scan 更适合作为第一张地图，用来判断下一步应该扫描哪个 folder。
@@ -241,7 +240,7 @@ Generate configured folder contexts
 然后问 agent：
 
 ```text
-请读取 Projects/Project_ABC 的 folder-level Agent Context index。
+请读取.agent_context/folders/projects__project_ABC/latest/里面文件
 
 这个索引是否足够帮助你理解这个项目？
 相比直接读取整个 folder，这是否能节省 token？
@@ -270,12 +269,10 @@ Generate all agent contexts
 然后问 agent：
 
 ```text
-请读取 vault-level Agent Context index 和 folder context registry。
+请读取.agent_context/latest/以及.agent_context/folders/<your project>/latest/里面的文件
 
-哪些 folder-level indexes 对当前任务有帮助？
-哪些生成的 context 文件值得保留？
-哪些似乎不必要？
-是否应该把某些生成的 AGENTS pointer 合并到我已有的 agent instructions 里？
+这个索引是否足够帮助你理解这个项目？
+相比直接读取整个 folder，这是否能节省 token？
 ```
 
 ## 和 Python 版本的关系
