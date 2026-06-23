@@ -4,6 +4,7 @@
 ![Token Cost](https://img.shields.io/badge/indexing%20token%20cost-zero-green)
 
 # Obsidian Agent Context
+[中文说明](README.zh-CN-obsidian-agent-context.md)
 
 **Give AI agents a map of your Obsidian vault before they start reading your notes.**
 
