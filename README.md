@@ -172,12 +172,11 @@ This creates:
 Then ask your agent:
 
 ```text
-Read the vault-level Agent Context index first.
+Read the files in .agent_context/latest/
 
 Does this help you understand the overall structure of my vault?
-Which folders or notes look most relevant?
 Would this reduce the number of source files you need to open?
-Would a folder-level scan be more useful for this task?
+Does this folder help to save the token usage significantly?
 ```
 
 This is a good first step for discovery. The caveat is that for very large vaults, a full-vault index may still be broad or noisy. In that case, the vault-level scan is best used as a map to decide which folder should be scanned next.
@@ -229,7 +228,7 @@ This creates folder-specific context indexes such as:
 Then ask your agent:
 
 ```text
-Read the folder-level Agent Context index for Projects/Project_ABC.
+Read the files in .agent_context/folders/<your project>/latest/
 
 Does this give you enough context to work on this project?
 Would this folder-level index save tokens compared with reading the folder directly?
@@ -258,7 +257,7 @@ This creates or updates:
 Then ask your agent:
 
 ```text
-Read the vault-level Agent Context index and the folder context registry.
+Read files in .agent_context/latest and .agent_context/folders/<your project>/latest/
 Would this folder-level index save tokens compared with reading the folder directly?
 ```
 
