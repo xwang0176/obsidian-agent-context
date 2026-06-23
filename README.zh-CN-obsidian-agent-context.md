@@ -71,6 +71,62 @@ Obsidian Agent Context 不是一个重型 AI 插件。
 
 > 本地导航层，而不是 semantic search engine 或 summarizer。
 
+## 从 GitHub release 手动安装
+
+Obsidian Agent Context 目前还没有上架 Obsidian community plugin marketplace。在正式上架之前，你可以先从 GitHub release 手动安装。
+
+1. 在这个 GitHub repository 页面右侧，找到 **Releases**。
+2. 打开最新的 release。
+3. 下载下面三个文件：
+
+```text
+manifest.json
+main.js
+styles.css
+```
+
+4. 打开你的 Obsidian vault 里的插件文件夹：
+
+```text
+<vault>/.obsidian/plugins/
+```
+
+5. 在 `plugins` 文件夹下面新建一个文件夹，命名为：
+
+```text
+obsidian-agent-context
+```
+
+6. 把刚才下载的三个文件放进这个文件夹：
+
+```text
+<vault>/.obsidian/plugins/obsidian-agent-context/
+  manifest.json
+  main.js
+  styles.css
+```
+
+7. 重启 Obsidian。
+8. 打开 **Settings → Community plugins**。
+9. 如果 Obsidian 提示需要允许 community plugins，请允许或关闭 **Restricted mode**。
+10. 启用 **Obsidian Agent Context**。
+
+启用插件后，打开 command palette：
+
+```text
+Ctrl + P
+```
+
+搜索：
+
+```text
+Agent Context
+```
+
+你应该可以看到插件提供的相关命令。
+
+请只从本 repository 的 release 页面下载插件文件。
+
 ## 快速开始
 
 安装并启用插件后，打开 Obsidian command palette：
