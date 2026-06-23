@@ -31,10 +31,11 @@ It helps an agent answer:
 
 The goal is simple: **less blind reading, better context selection, and lower token waste when you later use an AI agent.**
 
+Use this Obsidian plugin if your content lives mainly in Obsidian and you want commands inside the Obsidian UI.
+
+
 Use this Python version if you want to index a general local folder, such as a code repository, research folder, data project, or mixed document directory. See [Agent Context Indexer](https://github.com/xwang0176/agent-context-indexer).
 
-
-Use the Obsidian plugin if your content lives mainly in Obsidian and you want commands inside the Obsidian UI. 
 
 
 ## Why it is low-risk to try
