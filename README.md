@@ -82,6 +82,8 @@ It is a **navigation layer**, not a semantic search engine or summarizer.
 
 ## Manual installation from GitHub release
 
+[Youtube Tutorial](https://www.youtube.com/watch?v=5mtxGRhqxA4)
+
 Obsidian Agent Context is not yet available in the Obsidian community plugin marketplace. Until then, you can install it manually from the GitHub release.
 
 1. Go to the **Releases** section on the right side of this GitHub repository.
