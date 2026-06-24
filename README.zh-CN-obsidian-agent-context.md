@@ -72,6 +72,7 @@ Obsidian Agent Context 不是一个重型 AI 插件。
 > 本地导航层，而不是 semantic search engine 或 summarizer。
 
 ## 从 GitHub release 手动安装
+[Youtube Tutorial](https://www.youtube.com/watch?v=5mtxGRhqxA4)
 
 Obsidian Agent Context 目前还没有上架 Obsidian community plugin marketplace。在正式上架之前，你可以先从 GitHub release 手动安装。
 
