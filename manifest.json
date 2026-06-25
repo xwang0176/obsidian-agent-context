@@ -1,6 +1,6 @@
 {
-  "id": "obsidian-agent-context",
-  "name": "Obsidian Agent Context",
+  "id": "local-agent-context",
+  "name": "Local Agent Context",
   "version": "0.1.0",
   "minAppVersion": "1.5.0",
   "description": "Create local, token-free context maps that help AI agents navigate your Obsidian vault.",
