@@ -1,7 +1,7 @@
 {
   "id": "local-agent-context",
   "name": "Local Agent Context",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "minAppVersion": "1.5.0",
   "description": "Create local, token-free context maps that help AI agents navigate your vault.",
   "author": "Xu Wang",
