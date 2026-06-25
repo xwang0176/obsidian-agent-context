@@ -3,7 +3,7 @@
 ![No LLM Calls](https://img.shields.io/badge/LLM%20calls-none-lightgrey)
 ![Token Cost](https://img.shields.io/badge/indexing%20token%20cost-zero-green)
 
-# Obsidian Agent Context
+# Local Agent Context
 [中文说明](README.zh-CN-obsidian-agent-context.md)
 [Medium Post](https://medium.com/@xwang222/i-built-a-local-context-generator-to-help-ai-agents-save-tokens-f04bc5bf5da7)
 
